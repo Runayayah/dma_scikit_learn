@@ -1,0 +1,16 @@
+{
+  "run_context": {
+    "run_id": "run_20260420_223539",
+    "benchmark_mode": "fast",
+    "seed": null,
+    "started_at": "2026-04-20T20:35:39.531565+00:00",
+    "extra": {}
+  },
+  "records_count": 3,
+  "warnings_count": 0,
+  "errors_count": 1,
+  "summary": {
+    "status": "error",
+    "message": "generate_dataset() got an unexpected keyword argument 'seed'"
+  }
+}
