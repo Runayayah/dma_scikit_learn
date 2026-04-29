@@ -1,0 +1,3 @@
+model,best_score_f1,best_params
+logistic_regression,0.7306151331947994,{'model__C': 1.0}
+random_forest,0.6972196984577761,"{'model__max_depth': 10, 'model__n_estimators': 200}"

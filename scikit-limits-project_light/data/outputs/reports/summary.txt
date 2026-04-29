@@ -1,0 +1,74 @@
+Rapport synthétique - Benchmark scikit-learn
+===========================================
+
+Objectif :
+Évaluer les capacités et limites de scikit-learn sur un problème de prédiction du risque client en assurance.
+
+Données :
+- variables numériques : âge, revenu, sinistres, ancienneté, kilométrage...
+- variables catégorielles : région, type de véhicule, couverture, profession...
+- variable textuelle : note métier synthétique liée au profil client.
+
+Méthodologie :
+- génération de données synthétiques assurantielles
+- preprocessing avec Pipeline et ColumnTransformer
+- vectorisation texte avec TF-IDF
+- validation croisée stratifiée
+- comparaison de plusieurs familles de modèles
+- analyse avancée : GridSearchCV, calibration, courbes ROC/PR, learning curve et permutation importance
+
+Meilleur modèle global :
+- modèle : ridge_classifier
+- famille : linear
+- F1 moyen : 0.6573
+- balanced accuracy moyenne : 0.7974
+- recall moyen : 0.7772
+- ROC-AUC moyen : 0.8753
+- temps d'entraînement moyen : 0.1211 sec
+
+Top 5 modèles :
+- ridge_classifier | F1=0.6573 | Recall=0.7772 | ROC-AUC=0.8753 | Fit=0.121s
+- linear_svc | F1=0.6560 | Recall=0.7724 | ROC-AUC=0.8758 | Fit=0.146s
+- logistic_regression | F1=0.6556 | Recall=0.7806 | ROC-AUC=0.8760 | Fit=0.185s
+- sgd_classifier | F1=0.6111 | Recall=0.7571 | ROC-AUC=0.8616 | Fit=0.126s
+- mlp | F1=0.5876 | Recall=0.5251 | ROC-AUC=0.8570 | Fit=0.476s
+
+Analyse par scénario :
+- baseline : F1 moyen=0.5979, balanced accuracy=0.7498, recall=0.6240
+- class_imbalance : F1 moyen=0.4240, balanced accuracy=0.7358, recall=0.5343
+- high_noise : F1 moyen=0.4526, balanced accuracy=0.6481, recall=0.4837
+- missing_values : F1 moyen=0.5507, balanced accuracy=0.7149, recall=0.5746
+- text_removed : F1 moyen=nan, balanced accuracy=nan, recall=nan
+
+Analyse avancée sklearn :
+--------------------------
+
+Résultats GridSearchCV léger :
+- logistic_regression : best F1=0.7306, params={'model__C': 1.0}
+- random_forest : best F1=0.6972, params={'model__max_depth': 10, 'model__n_estimators': 200}
+
+Top variables selon permutation importance :
+- text_feature : importance=0.1713
+- num_previous_claims_count : importance=0.1217
+- num_late_payments_count : importance=0.0627
+- num_annual_mileage : importance=0.0202
+- num_vehicle_age : importance=0.0179
+- num_duplicate_0 : importance=0.0165
+- num_years_with_license : importance=0.0160
+- num_annual_income : importance=0.0135
+- num_collinear_1 : importance=0.0130
+- num_age : importance=0.0120
+
+Figures avancées générées :
+- calibration : C:\Users\lucie\OneDrive\Bureau\scikit-limits-project\data\outputs\figures\calibration_curve.png
+- learning curve : C:\Users\lucie\OneDrive\Bureau\scikit-limits-project\data\outputs\figures\learning_curve_logistic_regression.png
+- courbe ROC/PR : C:\Users\lucie\OneDrive\Bureau\scikit-limits-project\data\outputs\figures\roc_curve_logistic_regression.png
+- courbe ROC/PR : C:\Users\lucie\OneDrive\Bureau\scikit-limits-project\data\outputs\figures\precision_recall_curve_logistic_regression.png
+
+Limites observables de scikit-learn dans ce projet :
+- les pipelines classiques sont très efficaces pour des données tabulaires hétérogènes ;
+- le texte est exploitable via TF-IDF, mais sans compréhension sémantique profonde ;
+- certains modèles nécessitent des preprocessings spécifiques dense/sparse ;
+- les performances dépendent fortement du bruit, du déséquilibre et de la qualité des données ;
+- les modèles comme MLPClassifier restent limités par rapport à des frameworks deep learning spécialisés ;
+- scikit-learn reste très adapté au machine learning classique, mais moins au très gros volume ou au multimodal profond.
